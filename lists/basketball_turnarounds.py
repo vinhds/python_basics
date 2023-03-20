@@ -24,4 +24,37 @@
 #
 #In the second line print an integer value, the answer to the second question from the text of the task.
 
+team_A_pts = int(input())
+team_A_when = []
+for i in range(team_A_pts):
+    score_time = int(input())
+    team_A_when.append(score_time)
 
+team_B_pts = int(input())
+team_B_when = []
+for i in range(team_B_pts):
+    score_time = int(input())
+    team_B_when.append(score_time)
+score_times = team_A_when + team_B_when
+score_times.sort()
+first_half_pts = 0
+A_score = 0
+B_score = 0
+num_turnarounds = 0
+result = []
+
+for i in range(len(score_times)):
+    if score_times[i] <= 1440:
+        first_half_pts += 1
+    if score_times[i] in team_A_when:
+        A_score += 1
+    elif score_times[i] in team_B_when:
+        B_score += 1
+    current_result = A_score > B_score
+    result.append(current_result)
+for i in range(2, len(result)):
+    if result[i-2:i+1] == [True, False, False] or result[i-2:i+1] == [False, False, True]:
+        num_turnarounds += 1
+        
+print(first_half_pts)
+print(num_turnarounds)
