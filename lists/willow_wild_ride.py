@@ -17,3 +17,12 @@
 #Output Specification
 #
 #For each dataset, output the number of days that Willow will be playing with the boxes after the N days given in the dataset.
+
+# Get the input
+for i in range(10):
+    first_line = input()
+    t, n = map(int, first_line.split(' '))
+    mandy_actions = []
+    for i in range(n):
+        action = input()
+        mandy_actions.append(action)
