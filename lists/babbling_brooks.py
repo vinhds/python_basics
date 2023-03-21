@@ -30,3 +30,36 @@
 #
 #Your job is to determine how many streams emerge at# the foot of the mountain and what the flow is in each.
 #Your output is a sequence of real numbers, rounded to the nearest integer, giving the flow in rivers 1 through m .
+
+# Retreive input: number of streams and the flow in each of the streams
+num_streams = int(input())
+flows = []
+for i in range(num_streams):
+    flow = int(input())
+    flows.append(flow)
+
+# Perform split or join on the flows depending on the input
+action = int(input())
+while action != 77:
+    if action == 99:
+        flow_loc = int(input())
+        flow_loc -= 1
+        percentage = int(input())
+        # Calculate the percentage of the flow at the split location
+        # that flows to the left fork
+        left_flow = flows[flow_loc] * percentage / 100
+        # The rest flows to the right fork
+        right_flow = flows[flow_loc] - left_flow
+        # Modify the stream, replace the flow that is split by the left and right forks
+        flows = flows[:flow_loc] + [left_flow, right_flow] + flows[(flow_loc + 1):]
+    elif action == 88:
+        flow_loc = int(input())
+        flow_loc -= 1
+        # The stream at flow_loc location is joined with the one to its right
+        new_flow = flows[flow_loc] + flows[(flow_loc + 1)]
+        # Modify the stream, replace the two flows by the combined flow
+        flows = flows[:flow_loc] + [new_flow] + flows[(flow_loc+2):]
+    action = int(input())
+# Print the output
+for flow in flows:
+    print(round(flow), end=' ')
