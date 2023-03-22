@@ -26,17 +26,22 @@ for i in range(10):
     for i in range(n):
         action = input()
         mandy_actions.append(action)
-    next_day = 0
+# Get the day when willow finishes playing with a box
+    last_play_day = 0
+    # Go through Mandy's list and find the last day Willow plays with each box in the list
     for i in range(len(mandy_actions)):
         if mandy_actions[i] == 'B':
-            if i <= next_day:
-                next_day += t
-            elif i > next_day:
-                next_day = i + (t - 1) 
-    if next_day <= len(mandy_actions) - 1:
+            if i == 0:
+                last_play_day = t - 1
+            else:
+                if i <= last_play_day:
+                    last_play_day += t
+                elif i > last_play_day:
+                    last_play_day = i + (t - 1) 
+    if last_play_day <= len(mandy_actions) - 1:
         print(0)
     else:
-        print(next_day - len(mandy_actions) + 1)
+        print(last_play_day - len(mandy_actions) + 1)
 
 
 
