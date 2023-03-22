@@ -26,3 +26,27 @@ for i in range(10):
     for i in range(n):
         action = input()
         mandy_actions.append(action)
+    next_day = 0
+    for i in range(len(mandy_actions)):
+        if mandy_actions[i] == 'B':
+            if i <= next_day:
+                next_day += t
+            elif i > next_day:
+                next_day = i + (t - 1) 
+    if next_day <= len(mandy_actions) - 1:
+        print(0)
+    else:
+        print(next_day - len(mandy_actions) + 1)
+
+
+
+
+
+
+
+
+
+
+
+
+
