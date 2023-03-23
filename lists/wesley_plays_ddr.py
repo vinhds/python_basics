@@ -82,6 +82,10 @@ current_loc = 0
 combo_found =  False
 while current_loc < len(wesley_moves):
     current_move = wesley_moves[current_loc]
+    # Start with the current move
+    # Go through the list of combos to find the combo with
+    # maximum length that appears in Wesley's moves starting
+    # at the current move
     for i in range(n_combos):
         if combos_list[i][0] == current_move:
             combo_length = len(combos_list[i])
@@ -91,9 +95,12 @@ while current_loc < len(wesley_moves):
                     if combo_length > max_length:
                         max_length = combo_length
                         score_earned = points_list[i]
+    # If a maximum combo is found, move the current location to the correct place
+    # update the score
     if combo_found == True:
         current_loc += max_length
         score += score_earned
+    # if nothing found, just keep moving through Wesley's moves        
     else:
         current_loc += 1
     max_length = 0
