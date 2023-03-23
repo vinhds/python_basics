@@ -79,14 +79,28 @@ score = 0
 score_earned = 0
 max_length = 0
 current_loc = 0
-combo_length = 0
-while current_loc <  len(wesley_moves):
+combo_found =  False
+while current_loc < len(wesley_moves):
+    current_move = wesley_moves[current_loc]
     for i in range(n_combos):
-        current_move = wesley_moves[current_loc]
         if combos_list[i][0] == current_move:
-            if combos_list[i] in wesley_moves and len(combos_list[i]) > max_length:
-                max_length = len(combos_list[i])
-                
+            combo_length = len(combos_list[i])
+            if (current_loc + combo_length) < len(wesley_moves):
+                if wesley_moves[current_loc:(current_loc + combo_length)] == combos_list[i]:
+                    combo_found = True
+                    if combo_length > max_length:
+                        max_length = combo_length
+                        score_earned = points_list[i]
+    if combo_found == True:
+        current_loc += max_length
+        score += score_earned
+    else:
+        current_loc += 1
+    max_length = 0
+    combo_found = False
+
+print(score + len(wesley_moves))
+
 
 
 
