@@ -85,7 +85,7 @@ while current_loc < len(wesley_moves):
     for i in range(n_combos):
         if combos_list[i][0] == current_move:
             combo_length = len(combos_list[i])
-            if (current_loc + combo_length) < len(wesley_moves):
+            if (current_loc + combo_length) <= len(wesley_moves):
                 if wesley_moves[current_loc:(current_loc + combo_length)] == combos_list[i]:
                     combo_found = True
                     if combo_length > max_length:
