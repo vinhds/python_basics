@@ -36,16 +36,19 @@ min_loc = measures.index(min_measure)
 max_measure = max(measures)
 max_loc = measures.index(max_measure)
 # This is when the max location happens before the min location
-if max_loc < min_loc:
-    end_loc = len(measures) - 1
-else:
-    end_loc = max_loc
+#if max_loc < min_loc:
+#    end_loc = len(measures) - 1
+#else:
+#    end_loc = max_loc
 # Check to see whether the transition from min to max follows an 
 # increasing sequence
-for i in range(min_loc, end_loc):
-    if measures[i] > measures[i+1]:
-        check = False
-        break
+if max_loc <  min_loc:
+    check = False
+else:
+    for i in range(min_loc, max_loc):
+        if measures[i] > measures[i+1]:
+            check = False
+            break
 if check == True:
     difference = max_measure - min_measure
     print(difference)

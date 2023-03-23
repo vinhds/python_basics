@@ -65,14 +65,29 @@
 wesley_moves = input()
 # The second line is the number of different combos.
 n_combos = int(input())
-combos_dict = {}
-# The next n_combos lines will each contain a combo sequence and the points the combo is worth
-# Store these in a dictionary where they keys are the combo sequences and the values are the 
-# corresponding points.
+combos_list = []
+points_list = []
+# The next n_combos lines will each contain a combo sequence and the points the combo is worth.
+# Store these in two lists.
 for i in range(n_combos):
     sequence = input()
     combo, points = sequence.split(' ')
     points = int(points)
-    combos_dict[combo] = points
+    combos_list.append(combo)
+    points_list.append(points)
+score = 0
+score_earned = 0
+max_length = 0
+current_loc = 0
+combo_length = 0
+while current_loc <  len(wesley_moves):
+    for i in range(n_combos):
+        current_move = wesley_moves[current_loc]
+        if combos_list[i][0] == current_move:
+            if combos_list[i] in wesley_moves and len(combos_list[i]) > max_length:
+                max_length = len(combos_list[i])
+                
+
+
 
 
