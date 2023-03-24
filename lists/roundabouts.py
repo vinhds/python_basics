@@ -18,17 +18,19 @@ for i in range(10):
     n_routes = int(input())
     routes_dict = {}
     troubled_routes = []
+    # Store the route_id and minimum diameter for each route in a dictionary
     for i in range(n_routes):
         line = input()
         line = list(map(int, line.split(' ')))
         route_id = line[0]
         routes_dict[route_id] = min(line[2:])
-
+    # Find the minimum diameter across all routes
     overall_min = min(routes_dict.values())
     result = str(overall_min) + ' {'
     for route_id in routes_dict.keys():
         if routes_dict[route_id] == overall_min:
             troubled_routes.append(route_id)
+    # sort the list of routes with a roundabout that has the min diameter
     troubled_routes.sort()
     for route_id in troubled_routes:
         result = result + str(route_id) + ','
