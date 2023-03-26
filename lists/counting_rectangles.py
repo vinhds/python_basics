@@ -18,3 +18,32 @@
 #In the test cases worth additional 30 % of the points, it will hold N = 1 .
 
 
+
+# Hint: The number of rectangles in the image is equal to the number of upper-left corners of rectangles in the image.
+# Cell ( i , j ) is an upper-left corner of some rectangle if that cell contains the character *
+# while cells ( i − 1 , j ) and ( i , j − 1 ) (if they exist) contain the character ..
+
+n, m = map(int, input().split(' '))
+picture = []
+n_rectangles = 0
+for i in range(n):
+    line = input()
+    picture.append(line)
+for i in range(n):
+    for j in range(m):
+        if i >= 1 and j >= 1:
+            if picture[i][j] == '*' and picture[i-1][j] == '.' and picture[i][j-1] == '.':
+                n_rectangles += 1
+        elif i == 0:
+            if j == 0:
+                if picture[i][j] == '*':
+                    n_rectangles += 1
+            else: 
+                if picture[i][j] == '*' and picture[i][j-1] == '.':
+                    n_rectangles += 1
+        else:
+            if picture[i][j] == '*' and picture[i-1][j] == '.':
+                n_rectangles +=1  
+
+print(n_rectangles)
+
