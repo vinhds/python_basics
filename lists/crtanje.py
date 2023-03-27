@@ -35,6 +35,7 @@ begin_net_worth = 0
 end_net_worth = 0
 n_plus = change.count('+')
 n_minus = change.count('-')
+max_change = max([n_plus, n_minus])
 max_row = abs(n_plus - n_minus)
 draw_locs = []
 draw_chars = []
@@ -57,13 +58,12 @@ print(draw_locs)
 print(draw_chars)
 print(max_row)
 print(n_days)
-for j in range(max_row):
+print(max_change)
+for j in range(max_change):
     for i in range(n_days):
         if (j,i) not in draw_locs:
             print('.',end='')
-        elif (j, i) in draw_locs:
+        else:            
             loc = draw_locs.index((j, i))
             print(draw_chars[loc],end='')
-        if i == (n_days - 1):
-            print('\n')
-            
+    print('\n')            
