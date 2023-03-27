@@ -28,4 +28,42 @@
 #
 #Output the described matrix.
 
-
+# Get the input
+n_days = int(input())
+change = input()
+begin_net_worth = 0
+end_net_worth = 0
+n_plus = change.count('+')
+n_minus = change.count('-')
+max_row = abs(n_plus - n_minus)
+draw_locs = []
+draw_chars = []
+for i in range(n_days):
+    begin_net_worth = end_net_worth
+    if change[i] == '+':
+        loc = (max_row - begin_net_worth, i)
+        end_net_worth = begin_net_worth + 1
+        draw_chars.append('/')
+    elif change[i] == '-':
+        end_net_worth = begin_net_worth - 1
+        loc = (max_row - end_net_worth, i)
+        draw_chars.append('\\')
+    else:
+        loc = (max_row - begin_net_worth, i)
+        end_net_worth = begin_net_worth
+        draw_chars.append('_')
+    draw_locs.append(loc)
+print(draw_locs)
+print(draw_chars)
+print(max_row)
+print(n_days)
+for j in range(max_row):
+    for i in range(n_days):
+        if (j,i) not in draw_locs:
+            print('.',end='')
+        elif (j, i) in draw_locs:
+            loc = draw_locs.index((j, i))
+            print(draw_chars[loc],end='')
+        if i == (n_days - 1):
+            print('\n')
+            
