@@ -33,9 +33,6 @@ n_days = int(input())
 change = input()
 begin_net_worth = 0
 end_net_worth = 0
-n_plus = change.count('+')
-n_minus = change.count('-')
-max_change = max([n_plus, n_minus])
 locs = []
 draw_locs = []
 draw_chars = []
@@ -57,11 +54,13 @@ for i in range(n_days):
     locs.append(loc)
     x_locs.append(loc[0])    
 max_x = max(x_locs)    
+x_draw_locs = []
 for i in range(n_days):
     draw_loc = (max_x - locs[i][0], locs[i][1])
+    x_draw_locs.append(draw_loc[0])
     draw_locs.append(draw_loc)
-
-for j in range(max_change):
+num_rows = max(x_draw_locs)
+for j in range(num_rows+1):
     for i in range(n_days):
         if (j,i) not in draw_locs:
             print('.',end='')
