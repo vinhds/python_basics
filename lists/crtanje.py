@@ -36,29 +36,31 @@ end_net_worth = 0
 n_plus = change.count('+')
 n_minus = change.count('-')
 max_change = max([n_plus, n_minus])
-max_row = abs(n_plus - n_minus)
+locs = []
 draw_locs = []
 draw_chars = []
+x_locs = []
 for i in range(n_days):
     begin_net_worth = end_net_worth
     if change[i] == '+':
-        loc = (max_row - begin_net_worth, i)
+        loc = (begin_net_worth, i)
         end_net_worth = begin_net_worth + 1
         draw_chars.append('/')
     elif change[i] == '-':
         end_net_worth = begin_net_worth - 1
-        loc = (max_row - end_net_worth, i)
+        loc = (end_net_worth, i)
         draw_chars.append('\\')
     else:
-        loc = (max_row - begin_net_worth, i)
+        loc = (begin_net_worth, i)
         end_net_worth = begin_net_worth
         draw_chars.append('_')
-    draw_locs.append(loc)
-print(draw_locs)
-print(draw_chars)
-print(max_row)
-print(n_days)
-print(max_change)
+    locs.append(loc)
+    x_locs.append(loc[0])    
+max_x = max(x_locs)    
+for i in range(n_days):
+    draw_loc = (max_x - locs[i][0], locs[i][1])
+    draw_locs.append(draw_loc)
+
 for j in range(max_change):
     for i in range(n_days):
         if (j,i) not in draw_locs:
@@ -66,4 +68,6 @@ for j in range(max_change):
         else:            
             loc = draw_locs.index((j, i))
             print(draw_chars[loc],end='')
-    print('\n')            
+    print('\n')
+
+    
