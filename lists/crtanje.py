@@ -33,11 +33,16 @@ n_days = int(input())
 change = input()
 begin_net_worth = 0
 end_net_worth = 0
+# Keep a list of location of '/', '\' and '_' based on the change in net_worth: store in locs
 locs = []
+# Modify each element of locs to get the actual location that we need to draw: store in draw_locs
 draw_locs = []
+# List of what to draw: draw_chars
 draw_chars = []
+# Need to x_coordinates of locs to find the max. This is to obtain draw_locs 
 x_locs = []
 for i in range(n_days):
+    # Compute the end of day net_worth and initial location based on what happens during that day
     begin_net_worth = end_net_worth
     if change[i] == '+':
         loc = (begin_net_worth, i)
@@ -55,11 +60,14 @@ for i in range(n_days):
     x_locs.append(loc[0])    
 max_x = max(x_locs)    
 x_draw_locs = []
+# Now modify the coordinates in locs to obtain the coordinates where we need to make the drawing.
 for i in range(n_days):
     draw_loc = (max_x - locs[i][0], locs[i][1])
     x_draw_locs.append(draw_loc[0])
     draw_locs.append(draw_loc)
+# This is to ensure we draw the minimal number of ncessary rows
 num_rows = max(x_draw_locs)
+# Go each entry of the matrix and make the drawing
 for j in range(num_rows+1):
     for i in range(n_days):
         if (j,i) not in draw_locs:
