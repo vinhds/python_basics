@@ -27,3 +27,64 @@
 #
 #1 ≤ N , H ≤ 1000
 #
+
+# Get the input
+# Store Charlie's actions and the bot's actions in 2 lists
+# Store the damages from Charlie's actions and the bot's actions in 2 other lists
+
+n_rounds, health = map(int, input().split(' ')) 
+charlie_actions = []
+bot_actions = []
+charlie_damages = []
+bot_damages = []
+charlie_health = health
+bot_health = health
+for i in range(n_rounds):
+    charlie_c, charlie_d = input().split(' ')
+    charlie_actions.append(charlie_c)
+    charlie_damages.append(int(charlie_d))
+for i in range(n_rounds, 2*n_rounds):
+    bot_c, bot_d = input().split(' ')
+    bot_actions.append(bot_c)
+    bot_damages.append(int(bot_d))
+#print(charlie_actions)
+#print(charlie_damages)
+#print(bot_actions)
+#print(bot_damages)
+for i in range(n_rounds):
+    if charlie_actions[i] == 'A':
+        if i == 0:
+            bot_health -= charlie_damages[i]
+        else:
+            if bot_actions[i-1] == 'D':
+                charlie_health -= bot_damages[i-1]
+            else:
+                bot_health -= charlie_damages[i]
+    if charlie_actions[i] == 'D':
+        if bot_actions[i] == 'A':
+            bot_health -= charlie_damages[i]
+        else:
+            charlie_health -= charlie_damages[i]
+    if bot_actions[i] == 'A':
+        if charlie_actions[i] == 'D':
+            bot_health -= charlie_damages[i]
+        else:
+            charlie_health -= bot_damages[i]
+    if bot_actions[i] == 'D':
+        if i == n_rounds - 1:
+            bot_health -= bot_damages[i]
+        else:
+            if charlie_actions[i+1] == 'A':
+                charlie_health -= bot_damages[i]
+            else:
+                bot_health -= bot_damages[i]
+    print(f"Charlie's health after round {i} is {charlie_health}")                
+    print(f"Bot's health after round {i} is {bot_health}")
+    if bot_health == 0 or charlie_health == 0:
+        break
+if bot_health == 0 and charlie_health > 0:
+    print('VICTORY')
+elif bot_health > 0  and charlie_health == 0:
+    print('DEFEAT')
+else:
+    print('TIE')
