@@ -61,30 +61,29 @@ for i in range(2*n_rounds):
                 if bot_actions[index-1] != 'D':
                     bot_health -= charlie_damages[index]
         else:
-            if bot_actions[index] != 'A':
-                charlie_health -= charlie_damages[index]
+            if i > 0 and bot_actions[index - 1] == 'D':
+                bot_health -= bot_damages[index-1]
         #print(f'After the {i+1} turn, Charlie\'s health is {charlie_health}')                 
         #print(f'After the {i+1} turn, Bot\'s health is {bot_health}')
     else:
         if bot_actions[index] == 'A':
-            if charlie_actions[index] != 'D':
+            if charlie_actions[index] == 'A':
                 charlie_health -= bot_damages[index]
         else:
             if index == n_rounds-1:
                 bot_health -=  bot_damages[index]
             else:
-                if charlie_actions[index+1] != 'A':
-                    bot_health -= bot_damages[index]
+                if charlie_actions[index] == 'D':
+                    charlie_health -= charlie_damages[index]
         #print(f'After the {i+1} turn, Charlie\'s health is {charlie_health}')                 
         #print(f'After the {i+1} turn, Bot\'s health is {bot_health}')
     #print(f'Charlie\'s health in round {i} is {charlie_health}')
     #print(f'Bot\'s health in round {i} is {bot_health}')
-    if charlie_health == 0 or bot_health == 0:
+    if charlie_health <= 0 or bot_health <= 0:
         break
-if charlie_health > 0 and bot_health == 0:
-    print('VICTORY')
-elif charlie_health == 0 and bot_health > 0:
+if charlie_health <= 0:
     print('DEFEAT')
+elif bot_health <= 0:
+    print('VICTORY')
 else:
     print('TIE')
-
