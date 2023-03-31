@@ -29,4 +29,54 @@
 #Player A: n point(s).
 #Player B: m point(s).
 
+player_A_score = 0
+player_B_score = 0
+high_cards = ['jack', 'queen', 'king', 'ace']
+deck_of_cards = []
+
+#Get the input
+for i in range(52):
+    deck_of_cards.append(input())
+
+def check_high_card(loc, num):
+    check = False
+    i = 1 
+    while i <= num:
+        if deck_of_cards[loc+i] in high_cards:
+            check = True
+            break
+        else:
+            i += 1
+    return check
+
+def score_keeper(card, loc):
+    points = 0
+    if card == 'ace' and loc <= 47: 
+        if not check_high_card(loc, 4):
+            points = 4
+    elif card == 'king' and loc <= 48: 
+        if not check_high_card(loc, 3):
+            points = 3 
+    elif card == 'queen' and loc <= 49: 
+        if not check_high_card(loc, 2):
+            points = 2 
+    elif card == 'jack' and loc <= 50: 
+        if not check_high_card(loc, 1):
+            points = 1 
+    return points
+
+
+for i in range(52):
+    card = deck_of_cards[i]
+    points = score_keeper(card, i)
+    if points > 0:
+        if i % 2 == 0:
+            player_A_score += points
+            print(f'Player A scores {points} point(s).')
+        else:
+            player_B_score += points
+            print(f'Player B scores {points} point(s).')
+
+print(f'Player A: {player_A_score} point(s).')
+print(f'Player B: {player_B_score} point(s).')
 
