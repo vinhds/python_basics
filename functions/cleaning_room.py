@@ -19,31 +19,38 @@
 # For any two boxes i and j, if max_i <= min_j or min_i >= max_j, it means they can be ordered. Otherwise, immediately return NO. 
 # 4. Store in 3 lists: box_list, content_list, extrema_list
 # Challenge: what if all items in a box have the same height.
-
+# O(n^2) with large coefficients and tail?
 n_boxes = int(input())
 boxes = []
 all_content = []
 extrema = []
 check = True
 for box in range(n_boxes):
+    # Get the input
     line = list(map(int, input().split(' ')))
     boxes.append(line[0])
+    # Get the content of each box
     content = line[1:]
+    # Sort the content of each box
     sorted_content = sorted(content)
+    # If the heights in a box is not sorted, immediately return NO
     if content != sorted_content: 
         check = False
+    # Make a list of all sorted content and a list of all min_height, max_height of the boxes
     else:
         all_content.append(sorted_content)
         extrema.append([sorted_content[0], sorted_content[-1]])
 
-print(boxes)
-print(all_content)
-print(extrema)
+#print(boxes)
+#print(all_content)
+#print(extrema)
 
 if check == True:
     for i in range(n_boxes):
         if i < n_boxes - 1:
             for j in range(i+1, n_boxes):
+                # Given two sorted boxes i and j, if the condition max_i <= min_j or min_i >= max_j is not satisfied
+                # it means the two boxes can not be ordered.
                 if not ((extrema[i][1] <= extrema[j][0]) or (extrema[i][0] >= extrema[j][1])):
                     check = False
                     break
@@ -51,4 +58,5 @@ if check == True:
     print('YES')
 else:
     print('NO')
-                        
+                       
+#TODO: Try to use function for this code
