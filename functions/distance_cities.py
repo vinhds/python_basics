@@ -16,7 +16,7 @@
 # 1. Write a distance function that calculate dist(i,j) from city i and city j.
 # 2. Write a function to make each row of the matrix.
 # 3. Write a function to print each row.
-# This is O(n^2) with a coefficient k of kn^2 with k>=2
+# This is O(n^3) with a coefficient k of kn^2 with k>=2
 
 # Get the input
 consec_distances = list(map(int, input().split(' ')))
