@@ -38,19 +38,25 @@
 #3: CUCUCUGGCUCACAAAUUC
 
 # Plan:
-# Let's start by writing a function that will transcribe the transcription unit
+# FIRST STEP: Let's start by writing a function that will transcribe the transcription unit
 
-def transcribe(dna_str):
+def complementary(dna_str, rna=False):
     """
-    dna_str is a string that is the transcription unit to be transcribed
+    dna_str is a string that consists of characters 'A', 'C', 'G' and 'T' 
+    rna is a boolean variable (default = False) which indicates whether to transcribe dna_str to 
+    a complementary strand (rna=False) or an RNA strand (rna=True)
 
-    Return the resulting RNA which is complementary to the transcription unit
-    A ---> U, T ---> A, C <---> G
+    Return the resulting strand which is complementary to the transcription unit
+    A ---> U, T ---> A, C <---> G if rna=True
+    A <---> T, C <---> G if rna = False
     """
     s = ''
     for char in dna_str:
         if char == 'A':
-            s += 'U'
+            if rna == True:
+                s += 'U'
+            else:
+                s += 'T'
         elif char == 'T':
             s += 'A'
         elif char == 'C':
@@ -60,4 +66,72 @@ def transcribe(dna_str):
     return s
 
 # Test the function transcribe
-# print(transcribe('GGATTTAGATTGACCC'))
+# print(complementary('GGATTTAGATTGACCC'))
+# print(complementary('GGATTTAGATTGACCC', True))
+
+# SECOND STEP: Write a function to that takes a string and determine whether there exists a terminator.
+# Plan: Start at the beginning and vary two things: the location and the length (>=6) of a subtring.
+# Then do complementary and reverse of that substring and determine whether the resulting sequence 
+# exists in the remaining part of the original string.
+
+def find_terminator(dna_str):
+    """
+    dna_str is a string that consists of characters 'A', 'T', 'C', 'G'
+
+    Return the location of the terminator
+    The terminator consists of two distinct, complementary, reversed sequences of at least length 6
+    The location is the location of the first sequence
+    """
+    start = 0
+    while start < len(dna_str):
+        check = False
+        length = 6
+        while start + length < len(dna_str):
+           # print(f'Check with start = {start}, and length = {length}')
+            sequence = dna_str[start:(start+length)]
+           # print(f'sequence = {sequence}')
+            comp_seq = complementary(sequence)
+            match = comp_seq[::-1]
+           # print(f'match = {match}')
+            if dna_str[(start+length+1):].find(match) != -1:
+           #     result = sequence
+                check = True
+           #     print('Find match')
+                break
+            else:
+                length += 1
+           #     print('NEXT')
+        if check == True:
+           # print('Done')
+            break
+        else:
+            start += 1   
+           # print(f'Next Start = {start}')
+    return start
+    
+# Test find_terminator
+# print(find_terminator('ACCCGTCATGCAAGTCCATGCATGACAGC'))
+def find_promoter(dna_str, promoter='TATAAT'):
+    return dna_str.find(promoter)
+
+# Test find_promoter
+#print(find_promoter('AGATTATATAATGATAGGATTTAGATTGACCCGTCATGCAAGTCCATGCATGACAGC', 'TATAAT'))
+
+# THIRD STEP: Write a function that take a DNA sequence and transcribe it
+def transcriber(dna_str):
+    promoter_loc = find_promoter(dna_str, 'TATAAT')
+    #print(promoter_loc)
+    terminator_loc = promoter_loc + 11 + find_terminator(dna_str[(promoter_loc+11):]) 
+    #print(terminator_loc)
+    transcription_unit = dna_str[(promoter_loc+10):(terminator_loc)]
+    #print(transcription_unit)
+    return complementary(transcription_unit, rna=True)
+
+# Test transcriber
+# print(transcriber('AGATTATATAATGATAGGATTTAGATTGACCCGTCATGCAAGTCCATGCATGACAGC'))
+
+# Solve the problem
+for i in range(5):
+    dna_str = input()
+    print(i+1, end=': ')
+    print(transcriber(dna_str))
