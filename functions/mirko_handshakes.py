@@ -20,4 +20,101 @@
 #
 #The first and only line of output should contain the required number of handshakes.
 
+# Idea:
+# 1. Write a function to count the number of handshakes at a location (i, j)
+# 2. Given a matrix, write a function to count the total number of handshakes for the matrix.
+# 3. If a matrix has empty seats, go through all empty seats and find the location that gives the max
+# number of handshakes. 
 
+# Implementation:
+# STEP 1: Write a function that count the number of handshakes that a person seating at the (i,j) location
+# in a matrix will perform
+def handshakes_count_one(i, j, m):
+    """
+    i: integer that correspond to the row
+    j: integer that correpond to the column
+    m: 2 dimensional list
+
+    return the number of handshakes that a person at (i,j) does
+    """
+    neighbors = []
+    n_cols = len(m[0])
+    n_rows = len(m)
+    # Case where the matrix has only one row
+    if n_rows == 1:
+        if j == 0:
+            neighbors += [m[i][j+1]]
+        elif j == (n_cols-1):
+            neighbors += [m[i][j-1]]
+        else:
+            neighbors += [m[i][j+1], m[i][j-1]]
+    else:
+        if i==0 and j==0:
+            neighbors += [m[i][j+1], m[i+1][j], m[i+1][j+1]]
+        elif i==(n_rows-1) and j==0:
+            neighbors += [m[i][j+1], m[i-1][j], m[i-1][j+1]]
+        elif i==0 and j==(n_cols-1):
+            neighbors += [m[i][j-1], m[i+1][j], m[i+1][j-1]]
+        elif i==(n_rows-1) and j==(n_cols-1):
+            neighbors += [m[i-1][j], m[i][j-1], m[i-1][j-1]]
+        else:
+            if i==0:
+                neighbors += [m[i][j-1], m[i][j+1], m[i+1][j-1], m[i+1][j], m[i+1][j+1]]
+            elif i==(n_rows-1):
+                neighbors += [m[i][j-1], m[i][j+1], m[i-1][j-1], m[i-1][j], m[i-1][j+1]]
+            elif j==0:
+                neighbors += [m[i+1][j], m[i-1][j], m[i+1][j+1], m[i][j+1], m[i-1][j+1]]
+            elif j==(n_cols-1):
+                neighbors += [m[i+1][j], m[i-1][j], m[i+1][j-1], m[i][j-1], m[i-1][j-1]]
+            else:
+                neighbors += [m[i][j-1], m[i-1][j-1], m[i+1][j-1],m[i-1][j], m[i+1][j], m[i][j+1], m[i+1][j+1], m[i-1][j+1]]
+    return neighbors.count('o')
+# Test handshakes_count_one function
+#matrix = [['.','o','o'],['o','o','o'],['.','.','o']] 
+#print(handshakes_count_one(1,1,matrix))
+
+def handshakes_count_all(m):
+    """
+    m: 2 dimensional list, row (i,j) has either character 'o' or '.'
+
+    return total number of handshakes in matrix m
+    """
+    total = 0
+    n_cols = len(m[0])
+    n_rows = len(m)
+    for i in range(n_rows):
+        for j in range(n_cols):
+            if m[i][j] == 'o':
+                total += handshakes_count_one(i,j,m)
+    return total // 2
+
+# Test handshakes_count_all function
+#matrix = [['.','o','o'],['o','.','.']] 
+#print(handshakes_count_all(matrix))
+
+
+# Solve the problem
+# Get the input
+n_rows, n_cols = map(int, input().split(' '))
+matrix = []
+for i in range(n_rows):
+    row = list(input())
+    matrix.append(row)
+
+# Set the max number of handshakes to be the number of handshakes before Mirko enters
+max_handshakes = handshakes_count_all(matrix)
+
+# Go through the matrix, whenever there is an empty seat, Mirko takes it and update the number of handshakes
+temp_handshakes = 0
+for i in range(n_rows):
+    for j in range(n_cols):
+        if matrix[i][j] == '.':
+            matrix[i][j] = 'o'
+            temp_handshakes = handshakes_count_all(matrix)
+            if temp_handshakes > max_handshakes:
+                max_handshakes = temp_handshakes
+            matrix[i][j] = '.'
+
+print(max_handshakes)
+
+# TODO: This is probably O(n^4) with large coefficient. Find a way to do it more efficiently.
