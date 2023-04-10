@@ -20,3 +20,73 @@
 #Output
 #Write output to the file named word.out.
 #Output the properly formatted essay.
+
+
+
+# Idea:
+# Go through the list of words
+# Have a variable to which words are keep added to
+# Keep track of the length of this variable and stop until it is > K
+# Subtract the last word from the variable
+# Have a variable to keep track of the number of spaces
+
+    
+# STEP 1: Write a function to read input from each file and return the input in appropriate format
+
+def input_reader(filename):
+    input_file = open(filename, 'r')
+    first_line = input_file.readline().rstrip()
+    second_line = input_file.readline().rstrip()
+    n, k = map(int, first_line.split(' '))
+    word_list = second_line.split(' ')
+    return n, k, word_list;
+
+# STEP 1': Test the input_reader function
+#filename = 'word_bronze_jan20/10.in'
+#n, k, word_list = input_reader(filename)
+#print(n)
+#print(k)
+#print(word_list)
+#print('Start solving now:')
+
+# STEP 2: Write a function to process the input and return the required output. Essentially, solve the problem.
+def essay_formatter(n, k, word_list):
+    result = []
+    s = ''
+    n_spaces = 0
+    i = 0
+    while i < n:
+        previous = s
+        s += word_list[i] + ' '
+        n_spaces += 1
+        l = len(s) - n_spaces
+        if l > k:
+            result.append(previous.rstrip())
+            s = ''
+            n_spaces = 0
+            if i > 0:
+                i-= 1
+            if i == (n-2):
+                result.append(word_list[i+1])
+                break
+        i += 1
+    return result
+
+# STEP 2': Test the essay_formatter function
+#result = essay_formatter(n, k, word_list)
+#check = True
+#for i in range(len(result)):
+#    test_str = ''.join(result[i].split(' '))
+#    if len(test_str) > k:
+#        check = False
+#        print(f'Found a problem at location {i}. Problem is {result[i]}')
+#        
+#if check == True:
+#    print(result)
+#else:
+#    print('Check the algorithm')
+
+# STEP 3: Write a function to write the result to file
+
+def output_writer(filename, result):
+
