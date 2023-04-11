@@ -39,6 +39,7 @@ def input_reader(filename):
     second_line = input_file.readline().rstrip()
     n, k = map(int, first_line.split(' '))
     word_list = second_line.split(' ')
+    input_file.close()
     return n, k, word_list;
 
 # STEP 1': Test the input_reader function
@@ -49,28 +50,29 @@ def input_reader(filename):
 #print(word_list)
 #print('Start solving now:')
 
+def words_length(s):
+    return len(s) - s.count(' ')
 # STEP 2: Write a function to process the input and return the required output. Essentially, solve the problem.
 def essay_formatter(n, k, word_list):
     result = []
     s = ''
-    n_spaces = 0
     i = 0
+    last_indx = 0
     while i < n:
-        previous = s
+        prev = s
         s += word_list[i] + ' '
-        n_spaces += 1
-        l = len(s) - n_spaces
-        if l > k:
-            result.append(previous.rstrip())
+        if words_length(s) > k:
+            result.append(prev.rstrip())
             s = ''
-            n_spaces = 0
-            if i > 0:
-                i-= 1
-            if i == (n-2):
-                result.append(word_list[i+1])
-                break
+            last_indx = i
+            i -= 1
         i += 1
-    return result
+    s = ''
+    for i in range(last_indx, n):
+        s += word_list[i] + ' '
+    result.append(s.rstrip())
+    return result        
+
 
 # STEP 2': Test the essay_formatter function
 #result = essay_formatter(n, k, word_list)
@@ -89,4 +91,21 @@ def essay_formatter(n, k, word_list):
 # STEP 3: Write a function to write the result to file
 
 def output_writer(filename, result):
+    output_file = open(filename, 'w')
+    for i in range(len(result)):
+        output_file.write(result[i])
+        output_file.write('\n')
+    output_file.close()
 
+# STEP 4: Now we solve the problem
+num_files = 10
+for i in range(num_files):
+    input_file_name =  'word_bronze_jan20/' + str(i+1) + '.in'
+    n, k, word_list = input_reader(input_file_name)
+    result = essay_formatter(n, k, word_list)
+    output_file_name = 'word_bronze_jan20/' + str(i+1) + '.out'
+    output_writer(output_file_name, result)
+
+#n, k, word_list = input_reader('word.in')
+#result = essay_formatter(n, k, word_list)
+#output_writer('word.out', result)
