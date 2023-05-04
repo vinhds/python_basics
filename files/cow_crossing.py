@@ -32,19 +32,20 @@ def input_reader(file_name):
 file_name = 'crossroad.in'
 #print(input_reader(file_name))
 cow_IDs, positions = input_reader(file_name)
-black_list = []
+#black_list = []
 count = 0
 num_cows = len(cow_IDs)
 for i in range(num_cows-1):
     for j in range(i+1, num_cows):
-        if (cow_IDs[j] == cow_IDs[i]) and (i not in black_list) and (j not in black_list): 
+        if (cow_IDs[j] == cow_IDs[i]): #and (i not in black_list) and (j not in black_list): 
             if positions[i] != positions[j]:
                 count += 1
-                black_list.append(i)
-                black_list.append(j)
+                #black_list.append(i)
+                #black_list.append(j)
+                #print(f'Found cow {cow_IDs[i]} crossing at location {i+1} and {j+1}')
                 break
             else: 
-                black_list.append(i)
+                #black_list.append(i)
                 break
 #print(count)
 output_file = open('crossroad.out', 'w')
