@@ -51,24 +51,24 @@ for i in range(n_rows):
     diag_2 += rows[i][n_rows - 1 - i]
 #print(diag_1)
 #print(diag_2)
-individual_count = 0
-team_count = 0
+individual_victories = set()
+team_victories = set()
 #print(set(diag_1))
 #print(set(diag_2))
 all_lines = rows + cols + [diag_1, diag_2]
 for item in all_lines:
-    chars = set(item)
+    chars = frozenset(item)
     if len(chars) == 1:
-        individual_count += 1
+        individual_victories.add(chars)
     elif len(chars) == 2:
-        team_count += 1
+        team_victories.add(chars)
 
-#print(individual_count)
-#print(team_count)
+#print(individual_victories)
+#print(team_victories)
 
 output_file = open('tttt.out', 'w')
-output_file.write(str(individual_count))
+output_file.write(str(len(individual_victories)))
 output_file.write('\n')
-output_file.write(str(team_count))
+output_file.write(str(len(team_victories)))
 output_file.close()
                                                                                          
